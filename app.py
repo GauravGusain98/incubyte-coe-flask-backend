@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask_restx import Api
+from flask_cors import CORS
 from coe.api.routes import api_bp 
 from coe.api.user.routes import user_api 
 from coe.api.task.routes import task_api 
@@ -12,6 +13,8 @@ def create_app():
     app.config.from_object(Config)
 
     db.init_app(app)
+
+    CORS(app, resources={r"/*": {"origins": Config.ALLOWED_ORIGINS}}, supports_credentials=True)
 
     api = Api(
         app,

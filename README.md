@@ -21,11 +21,18 @@
     alembic upgrade head
     ```
 5. Run the application
-    ```
+
+    Without Hot Reloading
+    ```sh
     flask run
     ```
-6. Test APIs using Swagger on the below URL
+
+    With Hot Reloading
+    ```sh
+    python app.py
     ```
+6. Test APIs using Swagger on the below URL
+    ```sh
     http://127.0.0.1:5000/docs 
     ```
 

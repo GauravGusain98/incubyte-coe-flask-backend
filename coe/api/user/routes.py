@@ -8,7 +8,6 @@ from coe.models.base import db
 from coe.schemas.user import UserLogin, UserLoginResponse, RefreshTokenResponse, UserRegisterResponse, CreateUser, UserLogoutResponse, UserDeleteResponse, UpdateUser, UserUpdateResponse, LoggedInUserResponse
 from coe.api.user.swagger_models import define_user_models
 from jose import JWTError, jwt
-from werkzeug.exceptions import Unauthorized
 
 user_api = Namespace('User', description='User related operations', path='user')
 
@@ -19,7 +18,7 @@ class Login(Resource):
     @user_api.expect(swagger_models.login_request_model)
     @user_api.response(200, "Success", swagger_models.login_response_model)
     @user_api.response(401, "Unauthorized", swagger_models.error_model)
-    @user_api.response(422, "Validation Error")
+    @user_api.response(422, "Validation Error", swagger_models.error_model)
     def post(self):
         try:
             user_data = UserLogin.model_validate(request.json)
@@ -67,7 +66,7 @@ class RefreshAccessToken(Resource):
     @user_api.response(200, "Success", swagger_models.refresh_token_response_model)
     @user_api.response(403, "Forbidden", swagger_models.error_model)
     @user_api.response(401, "Unauthorized", swagger_models.error_model)
-    @user_api.response(422, "Validation Error")
+    @user_api.response(422, "Validation Error", swagger_models.error_model)
     def post(self):
         refresh_token = request.cookies.get("refresh_token")
         if not refresh_token:

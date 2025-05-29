@@ -1,8 +1,9 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+env_file_path = ".env.test" if os.getenv("ENV") == "test" else ".env"
 
+load_dotenv(env_file_path)
 class Config:
     DB_USER=os.getenv('DB_USER')
     DB_PASSWORD=os.getenv('DB_PASSWORD')

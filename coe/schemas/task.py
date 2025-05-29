@@ -37,6 +37,9 @@ class TaskSort(CamelModel):
     sort_by: Optional[str] = None
     sort_order: Optional[Literal["asc", "desc"]] = None
 
+class TaskListRequestSchema(TaskFilters, TaskSort):
+    pass
+
 class CreateTaskRequestSchema(CamelModel):
     name: NameStr = Field(..., description="First name of the task")
     description: str = Field(..., description="Description of the task")
