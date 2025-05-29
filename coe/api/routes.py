@@ -1,7 +1,16 @@
-from flask import Blueprint, jsonify
+from flask_restx import Namespace, Resource
+from .swagger_models import define_swagger_models
+from coe.schemas.generic import HelloResponse
 
-api_bp = Blueprint('api', __name__)
+api_bp = Namespace('Generic', description='Generic routes', path='/')
 
-@api_bp.route('/hello')
-def hello():
-    return jsonify({"message": "Hello from Flask COE App!"}), 200
+hello_response_model = define_swagger_models(api_bp)
+
+@api_bp.route('hello')
+class Hello(Resource):
+    @api_bp.response(200, "Success", hello_response_model)
+    def get(self):
+        response = HelloResponse(
+            message="Hello from Flask COE App!"
+        )
+        return response

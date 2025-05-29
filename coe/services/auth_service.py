@@ -1,8 +1,10 @@
 from datetime import datetime, timedelta
 from jose import jwt
+from functools import wraps
 from flask import request
 from werkzeug.exceptions import Unauthorized
 from coe.models import User
+from jose import JWTError
 from coe.models.base import db
 from config import Config as settings
 
@@ -46,3 +48,10 @@ def get_current_user():
         raise Unauthorized("User not found")
 
     return user
+
+def login_required(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        get_current_user()
+        return fn(*args, **kwargs)
+    return wrapper
