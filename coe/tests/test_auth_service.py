@@ -46,10 +46,8 @@ def test_get_current_user(app, db):
     user = create_test_user(db)
     token = auth_service.create_access_token({"user_id": user.id})
 
-    # Simulate a Flask request context with the token in cookies
     builder = EnvironBuilder(path="/", headers={"Cookie": f"access_token={token}"})
     env = builder.get_environ()
-    req = WerkzeugRequest(env)
 
     with app.test_request_context(environ_base=env):
         current_user = auth_service.get_current_user()
