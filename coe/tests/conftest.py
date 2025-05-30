@@ -12,8 +12,6 @@ from coe.models.base import db as _db
 from config import Config as TestConfig
 
 engine = create_engine(TestConfig.SQLALCHEMY_DATABASE_URI)
-TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
 
 @pytest.fixture(scope="session")
 def app():
