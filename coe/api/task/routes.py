@@ -67,8 +67,8 @@ class TaskList(Resource):
                 "sort_order": request.args.get("sortOrder")
             }
 
-            filters = TaskFilters(**{k: v for k, v in filters_data.items() if v is not None})
-            sort = TaskSort(**{k: v for k, v in sort_data.items() if v is not None})
+            filters = TaskFilters(**{key: value for key, value in filters_data.items() if value is not None})
+            sort = TaskSort(**{key: value for key, value in sort_data.items() if value is not None})
 
         except (ValueError, ValidationError) as e:
             return {"detail": str(e)}, 422

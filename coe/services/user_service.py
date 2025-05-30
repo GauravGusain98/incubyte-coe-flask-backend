@@ -44,7 +44,6 @@ def update_user(user_id: int, user_data: UpdateUser, db: Session) -> bool:
     if not user:
         return False
 
-    # Use dict and setattr to dynamically update only non-None fields
     update_fields = user_data.model_dump(exclude_unset=True, exclude={"id"})
     for field, value in update_fields.items():
         if field == 'password':

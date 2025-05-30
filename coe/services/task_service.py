@@ -79,7 +79,6 @@ def update_task_details(task_id:int, task_data: UpdateTaskRequestSchema, db: Ses
     if not task:
         return False
 
-    # Use dict and setattr to dynamically update only non-None fields
     update_fields = task_data.model_dump(exclude_unset=True, exclude={"id"})
     for field, value in update_fields.items():
         setattr(task, field, value)
