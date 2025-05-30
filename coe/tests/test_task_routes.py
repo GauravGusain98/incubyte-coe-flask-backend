@@ -7,11 +7,9 @@ fake = Faker()
 
 @pytest.fixture
 def auth_client(client):
-    """Creates and authenticates a user, returning a client with the auth cookie set."""
     email = fake.unique.email()
     password = "secret123"
 
-    # Register the user
     register_response = client.post("/user/register", json={
         "first_name": fake.first_name(),
         "last_name": fake.last_name(),
@@ -20,14 +18,12 @@ def auth_client(client):
     })
     assert register_response.status_code == 201
 
-    # Login and extract token
     login_response = client.post("/user/login", json={"email": email, "password": password})
     assert login_response.status_code == 200
 
     token = login_response.json.get("accessToken")
     assert token is not None
 
-    # Set the auth token manually (assuming you’re using cookies for auth)
     client.set_cookie(key="access_token", value=token)
     return client
 
