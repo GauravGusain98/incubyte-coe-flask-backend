@@ -5,15 +5,12 @@ from alembic import command
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-# Set the environment to test
 os.environ["ENV"] = "test"
 
-# Import after setting environment
 from app import create_app
 from coe.models.base import db as _db
 from config import Config as TestConfig
 
-# Configure test database engine
 engine = create_engine(TestConfig.SQLALCHEMY_DATABASE_URI)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
@@ -42,7 +39,6 @@ def db(request, app):
     connection = engine.connect()
     transaction = connection.begin()
 
-    # Override the global session with the test session
     _db.session.bind = connection
 
     should_rollback = request.node.get_closest_marker("rollback") is not None
